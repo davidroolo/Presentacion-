@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<!-- saved from url=(0091)https://s0.2mdn.net/8428289/1552939496790/20190319matchdomestico_160x600_esp_bvl/index.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <meta name="ad.size" content="width=160, height=600">
+        <title>160x600</title>
+        <link rel="stylesheet" href="./style.css">
+        <script src="./jquery.min.js.descarga"></script>
+        <script src="./script.js.descarga"></script>
+        <!-- <script src="scripts/TweenMax.min.js"></script> -->
+        <script src="./TweenMax.min.js.descarga"></script>
+        <script type="text/javascript">
+            var clickTag = "https://www.avianca.com/";
+        </script>
+    <script type="text/javascript">
+    
+      (function() {
+        var relegateNavigation = '';
+        var handleClickTagMessage = function(e) {
+          try {
+            var eventData = JSON.parse(e.data);
+          } catch (err) {
+            return;
+          }
+          if (eventData.isInitClickTag) {
+            if (eventData.clickTags) {
+              for (var i = 0; i < eventData.clickTags.length; i++) {
+                var clkTag = eventData.clickTags[i];
+                window[clkTag.name] = clkTag.url;
+              }
+            } else if (eventData.clickTag) {
+              window.clickTag = eventData.clickTag;
+            }
+            relegateNavigation = eventData.relegateNavigation;
+          }
+        };
+
+        if (open.call) {
+          window.open = function(open) {
+            return function(url, name, features) {
+              if (relegateNavigation === 'parent') {
+                var message = {'clickTag': url, 'isPostClickTag': true};
+                parent.postMessage(JSON.stringify(message), '*');
+              } else {
+                var args = [url, name];
+                if (features) {
+                  args.push(features);
+                }
+                open.apply(window, args);
+              }
+            };
+          }(window.open);
+        }
+
+        if (window.addEventListener) {
+          window.addEventListener(
+              'message', handleClickTagMessage, false);
+        } else {
+          window.attachEvent('onmessage', handleClickTagMessage);
+        }
+      })();
+    
+  </script></head>
+
+    <body>
+
+
+              <div id="ad" class="centered">
+                  <div class="animacion">
+                      <div class="content-anim">
+
+
+                          <!-- Inicio Frame1-->
+
+                          <div class="logos-caja"><img src="./logos.svg" alt=""></div>
+
+                          <div class="logostar"><img src="./staralliance.svg" alt=""></div>
+
+
+                          <!-- <div class="startAllience"><img src="images/starAlliance.png" alt=""></div> -->
+
+
+                          <div class="text1-1" style="visibility: hidden; opacity: 0;"><img src="./enamorate.svg" alt=""></div>
+
+
+                          <!-- Fin Frame1-->
+
+                          <!-- Inicio Frame2-->
+
+                          <div class="rectangulo" style="visibility: inherit; opacity: 1; transform: matrix(1, 0, 0, 1.1, 0, 15);">
+                              <div class="circulo" style="visibility: inherit; opacity: 1.2; transform: matrix(5, 0, 0, 5, 0, 0);"></div>
+                          </div>
+
+
+
+
+                          <div class="text2-1" style="visibility: hidden; opacity: 0;"><img src="./txt_2-01.svg" alt=""></div>
+                          <div class="text2-2" style="visibility: inherit; opacity: 1;"><img src="./txt_2-02.svg" alt=""></div>
+
+
+                          <!-- <div class="text2-legal"><img src="images/txt_2-Legal.svg" alt=""></div> -->
+
+                          <div class="botonGeneral">
+
+                              <div class="boton" style="visibility: inherit; opacity: 1;"><img src="./CTA-01.svg" alt=""></div>
+
+                              <div class="boton_r" style="visibility: inherit; opacity: 1;">
+                                  <div class="circulo_b" style="visibility: inherit; opacity: 0.6; transform: matrix(2, 0, 0, 2, 0, 0);"></div>
+                              </div>
+                          </div>
+
+                          <!-- Inicio Frame3-->
+
+
+
+                          <!-- Fondos-->
+
+                          <!-- <div class="fondo"></div> -->
+
+                          <div class="fondo-2"><img src="./img_A.jpg" alt=""></div>
+
+                          <div class="fondo-3" style="visibility: inherit; opacity: 1; transform: matrix(1, 0, 0, 1, 0, 0);"><img src="./img_B.jpg" alt=""></div>
+
+
+                      </div>
+
+                      <a class="clictag" href="javascript:window.open(window.clickTag)"></a>
+
+                  </div>
+
+              </div>
+
+
+
+    
+
+
+</body></html>

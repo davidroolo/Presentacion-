@@ -1,0 +1,70 @@
+var bk_results = {
+ "campaigns": [
+  {
+    "campaign": 304548,
+    "timestamp": 1553277200,
+    "categories": [
+    {
+     "categoryID": 591805,
+     "timestamp": 1553277101
+    },
+    {
+     "categoryID": 594974,
+     "timestamp": 1553268521
+    }
+    ]
+  },
+  {
+    "campaign": 304555,
+    "timestamp": 1553277200,
+    "categories": [
+    {
+     "categoryID": 594974,
+     "timestamp": 1553268521
+    },
+    {
+     "categoryID": 594975,
+     "timestamp": 1553268521
+    },
+    {
+     "categoryID": 594990,
+     "timestamp": 1553272021
+    },
+    {
+     "categoryID": 594993,
+     "timestamp": 1553268566
+    },
+    {
+     "categoryID": 594995,
+     "timestamp": 1553271993
+    }
+    ]
+  },
+  {
+    "campaign": 304553,
+    "timestamp": 1553277200,
+    "categories": [
+    {
+     "categoryID": 594974,
+     "timestamp": 1553268521
+    },
+    {
+     "categoryID": 594975,
+     "timestamp": 1553268521
+    },
+    {
+     "categoryID": 594990,
+     "timestamp": 1553272021
+    },
+    {
+     "categoryID": 594993,
+     "timestamp": 1553268566
+    },
+    {
+     "categoryID": 594995,
+     "timestamp": 1553271993
+    }
+    ]
+  }
+ ]
+};

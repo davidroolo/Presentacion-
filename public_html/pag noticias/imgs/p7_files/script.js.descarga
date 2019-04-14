@@ -1,0 +1,80 @@
+//ANIMACION
+
+$(document).ready(function( ) {
+
+    var tl=new TimelineMax();
+
+    //    animación frame 1
+    tl.from(".fondo-2, .logos-caja, .logoLife, .logoCom", 1, { ease:Power1.easeOut})
+
+    //Pantalla UNO
+
+        .from(".text1-1", 0.9, {autoAlpha:0, delay:1.5, ease:Power1.easeOut},"frame1")
+
+        .to(".text1-1", 0.4, {autoAlpha:0, delay:4, ease:Power1.easeOut},"frame1")
+
+
+        .from(".icon-malet", 0.4, {autoAlpha:0, delay:1, ease:Power1.easeOut},"frame1")
+
+        .to(".icon-malet", 0.4, {autoAlpha:0, delay:4, ease:Power1.easeOut},"frame1")
+
+
+
+
+        .to(".rectangulo", 0.4, {autoAlpha:1,  delay:1.2, scaleY:1.1, y:15,},"frame1")
+
+        .to(".circulo", 0.4, {autoAlpha:1.2,  delay:1.2, scale:5, ease:Linear.easeNone},"frame1")
+//
+//
+    // Pantalla DOS
+
+
+        .from(".fondo-3", 0, {autoAlpha:0,scale:0, delay:0.5, ease:Power1.easeOut},"frame2")
+
+        .to(".rectangulo", 0.4, {autoAlpha:1,  delay:1.2, scaleY:1.1, y:15,},"frame2")
+
+        .to(".circulo", 0.4, {autoAlpha:1.2,  delay:1.2, scale:5, ease:Linear.easeNone},"frame2")
+
+        .from(".text2-1", 0.9, {autoAlpha:0, delay:1.1, ease:Power1.easeOut},"frame2")
+        .from(".text_maleta", 0.4, {autoAlpha:0, delay:1.5, ease:Power1.easeOut},"frame2")
+
+
+
+
+      .from(".text_legal", 0.4, {autoAlpha:0, delay:1.5, ease:Power1.easeOut},"frame2")
+
+
+
+        .to(".circulo_b", 0.4, {autoAlpha:0, ease:Linear.easeNone, delay:3.2 },"frame2")
+
+        .to(".circulo_b", 0.4, {scale:0, ease:Linear.easeNone, delay:5 },"frame2")
+
+        .to(".text2-1", 0.4, {autoAlpha:0, delay:1.5, ease:Power1.easeOut},"frame3")
+
+        .from(".icon-sillas", 0.4, {autoAlpha:1,  delay:1.2, x:-150,},"frame2")
+
+        // Pantalla TRES
+
+
+        //.to(".fondo-3", 0.4, {autoAlpha:0, delay:0.3, ease:Power1.easeOut},"frame3")
+
+          .from(".text2-2", 0.4, {autoAlpha:0, delay:1.5, ease:Power1.easeOut},"frame3")
+
+
+          .to(".boton", 0.4, {autoAlpha:1, delay:2, ease:Power1.easeOut},"frame3")
+
+          .to(".circulo_b", 0.4, {autoAlpha:0.6, scale:2, ease:Linear.easeNone, delay:3},"frame3")
+      .to(".boton_r", 0.4, {autoAlpha:1, delay:2},"frame3")
+
+
+
+
+        //frame4
+
+
+
+
+
+
+
+});

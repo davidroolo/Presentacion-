@@ -1,0 +1,5 @@
+
+        var SITECONF = {};
+        SITECONF.SLUG = "cultura/arte-y-teatro";
+        SITECONF.TYPE = "article";
+        

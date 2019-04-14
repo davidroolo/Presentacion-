@@ -1,0 +1,230 @@
+/*<script type="text/javascript">*/
+  function ObjDmp(){
+		var rangoDias = '',
+			rangoHoras = '',
+			tagsArray = '',
+			referrerSimple = '',
+			autorSimple = '',
+			rangoArticulos = '',
+			rangoAbstract = '',
+    	userCampaign = '',
+      campaignDefault = '',
+      loadTimeModule = '';
+	}
+
+	ObjDmp.prototype.getTagsArray = function (container, elementClass, attribute){
+		var tags = [],
+			tagsContainer = document.getElementsByClassName(container),
+			x, tags, tag;
+		if(tagsContainer.length > 0){
+			var x = document.querySelectorAll("."+container+" "+elementClass);
+			if(x.length > 0){
+				for (var i = 0; i < x.length; i++) {
+					tag= x[i].getAttribute(attribute);
+					tags.push(tag);
+				}
+				this.tagsArray = tags;
+			}else{
+				this.tagsArray = 0;
+			}
+		}else{
+			this.tagsArray = 0;
+		}
+		return this.tagsArray;
+	};
+
+	ObjDmp.prototype.getRangeDay = function() {
+		var d = new Date();
+			dayDtmpDmp = d.getDay();
+			rangeDay = '';
+		if(dayDtmpDmp >=1 && dayDtmpDmp <=3){
+			rangeDay = 'L-M';
+		}else if(dayDtmpDmp == 4 || dayDtmpDmp == 5){
+			rangeDay = 'J-V';
+		}else{
+			rangeDay = 'S-D';
+		}
+		this.rangoDias = rangeDay;
+		return this.rangoDias;
+	};
+  
+  ObjDmp.prototype.getArticleCountRange = function() {
+    var articleCount = '';
+    if(typeof window.evoContador == "string" && !isNaN(window.evoContador)){
+      articleCount = window.evoContador;
+    }
+    else{
+      try {
+        articleCount = localStorage.getItem(nc + "-contador");
+      } catch (e) {
+        articleCount = "1-5";
+      }
+    }
+    articleCount = parseInt(articleCount);
+
+    if(articleCount <=15){
+      if(articleCount <=5){
+        this.rangoArticulos = '1-5';	
+      }else if(articleCount >5 && articleCount <=10){
+        this.rangoArticulos = '6-10';
+      }else{
+        this.rangoArticulos = '11-15';
+      }
+    }else if(articleCount > 15 && articleCount <=40){
+      if(articleCount <=20){
+        this.rangoArticulos = '16-20';
+      }else{
+        this.rangoArticulos = '21-40';
+      }
+    }else{
+      if(articleCount <=80){
+        this.rangoArticulos = '41-80';
+      }else if(articleCount > 80){
+        this.rangoArticulos = '81';
+      }else{
+        this.rangoArticulos = '1-5';
+      }
+    }
+
+    return this.rangoArticulos;
+
+  };
+  
+  ObjDmp.prototype.getAbstractCount = function() {
+    var cookie = getCmsCookie('displayAbstract');
+
+    if(cookie == false){
+      this.rangoAbstract = '0-4';
+    }else{
+      cookie = parseInt(cookie);
+
+      if(cookie <= 10){
+        if(cookie <=4){
+          this.rangoAbstract = '0-4';
+        }else{
+          this.rangoAbstract = '5-10';
+        }
+      }else{
+        if(cookie <=20){
+          this.rangoAbstract = '11-20';
+        }else{
+          this.rangoAbstract = '21';
+        }
+      }
+    }
+
+    return this.rangoAbstract;
+
+  };
+
+	ObjDmp.prototype.referrerAdjusment = function(){
+	//validacion para referer de correo
+		var params, referrer, referrerAdjusment;
+		if(document.referrer.length === 0){
+			var params = this.getUrlVars();
+		//se valida referrer por campañas de correo o redes sociales
+			if("cid" in params){
+				switch(params['cid']) {
+					case 'SOC_PRP_POS-MAR_ETW_FACEBOOK':
+						this.referrerSimple = 'Facebook';
+						break;
+					case 'SOC_PRP_POS-MAR_ET_FACEBOOK':
+						this.referrerSimple = 'Facebook';
+						break;
+					case 'SOC_PRP_POS-MAR_ETW_FACEBOOKMSN':
+						this.referrerSimple = 'Facebook messenger';
+						break;
+					case 'SOC_PRP_POS-MAR_ETW_WHATSAPP':
+						this.referrerSimple = 'Whatsapp';
+						break;
+					default:
+						this.referrerSimple = 'Correo';
+				}
+			}else{
+				this.referrerSimple = 0;
+			}
+	//validacion portales externos
+		}else{
+			referrer = document.referrer;
+			referrerAdjusment = '';
+			referrer = referrer.split("/");
+			referrerAdjusment = referrer[0]+'//'+referrer[2];
+			this.referrerSimple = referrerAdjusment;
+		}
+		return this.referrerSimple;
+	};
+
+	ObjDmp.prototype.getUrlVars = function() {
+		var vars = {},
+			parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+				vars[key] = value;
+			});
+		return vars;
+	};
+
+	ObjDmp.prototype.getUrlVarsgetHourRangeOnLoad = function(){
+		var date = new Date();
+		var hours = date.getHours();
+		if (hours < 12 ) {
+			if(hours >= 0 && hours <= 3){
+				return "12AM-4AM";
+				}else if(hours >= 4 && hours <= 7){
+					this.rangoHoras = "4AM-8AM";
+				}else{
+					this.rangoHoras = "8AM-12PM";
+				}
+		} else {
+			if(hours >= 12 && hours <= 14){
+				this.rangoHoras = "12PM-3PM";
+			}else if(hours >= 15 && hours <= 17){
+				this.rangoHoras = "3PM-6PM";
+			}else if(hours >= 18 && hours <= 20){
+				this.rangoHoras = "6PM-9PM";
+			}else{
+				this.rangoHoras = "9PM-12AM";
+			}
+		}
+		return this.rangoHoras;
+	};
+  
+  ObjDmp.prototype.getSimpleAuthor = function() {
+    if (typeof digitalData.page.autores !== "undefined") { 
+      this.autorSimple = cleanString(digitalData.page.autores);
+			return this.autorSimple;
+    }else{
+    	return undefined;
+    }
+   	
+	};
+
+	ObjDmp.prototype.setUserCampaign = function(idCampaign) {
+      this.userCampaign = idCampaign;
+			return this.userCampaign;
+	};
+
+	ObjDmp.prototype.setCampaignDefault = function(campaignDefault) {
+      this.campaignDefault = campaignDefault;
+			return this.campaignDefault;
+	};
+
+	ObjDmp.prototype.setLoadTimeModule = function(time) {
+      this.loadTimeModule = time;
+			return this.loadTimeModule;
+	};
+ 
+  var digitalDataAlternative = new ObjDmp();
+  
+  function cleanString(st){
+    var ltr = ['[àáâãä]','[èéêë]','[ìíîï]','[òóôõö]','[ùúûü]','ñ','ç','[ýÿ]','\\s|\\W|_'];
+    var rpl = ['a','e','i','o','u','n','c','y','-'];
+    var str = String(st.toLowerCase());
+
+    for (var i = 0, c = ltr.length; i < c; i++){
+      var rgx = new RegExp(ltr[i],'g');
+      str = str.replace(rgx,rpl[i]);
+    };
+
+      return str;
+  }
+
+/*</script>*/

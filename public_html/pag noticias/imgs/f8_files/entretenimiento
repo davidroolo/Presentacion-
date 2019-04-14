@@ -1,0 +1,5 @@
+
+        var SITECONF = {};
+        SITECONF.SLUG = "cultura/entretenimiento";
+        SITECONF.TYPE = "article";
+        

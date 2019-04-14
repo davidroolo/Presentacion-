@@ -1,0 +1,106 @@
+/*<!-- Begin BlueKai Tag -->
+<script type="text/javascript">*/
+  //md5 and sha256 provided by https://github.com/jbt/js-crypto
+
+  var bket_md5 = function(){for(var m=[],l=0;64>l;)m[l]=0|4294967296*Math.abs(Math.sin(++l));return function(c){var e,g,f,a,h=[];c=unescape(encodeURI(c));for(var b=c.length,k=[e=1732584193,g=-271733879,~e,~g],d=0;d<=b;)h[d>>2]|=(c.charCodeAt(d)||128)<<8*(d++%4);h[c=16*(b+8>>6)+14]=8*b;for(d=0;d<c;d+=16){b=k;for(a=0;64>a;)b=[f=b[3],(e=b[1]|0)+((f=b[0]+[e&(g=b[2])|~e&f,f&e|~f&g,e^g^f,g^(e|~f)][b=a>>4]+(m[a]+(h[[a,5*a+1,3*a+5,7*a][b]%16+d]|0)))<<(b=[7,12,17,22,5,9,14,20,4,11,16,23,6,10,15,21][4*b+a++%4])|f>>>32-b),e,g];for(a=4;a;)k[--a]=k[a]+b[a]}for(c="";32>a;)c+=(k[a>>3]>>4*(1^a++&7)&15).toString(16);return c}}();
+  var bket_sha256 = function(){function e(a,b){return a>>>b|a<<32-b}for(var b=1,a,m=[],n=[];18>++b;)for(a=b*b;312>a;a+=b)m[a]=1;b=1;for(a=0;313>b;)m[++b]||(n[a]=Math.pow(b,.5)%1*4294967296|0,m[a++]=Math.pow(b,1/3)%1*4294967296|0);return function(g){for(var l=n.slice(b=0),c=unescape(encodeURI(g)),h=[],d=c.length,k=[],f,p;b<d;)k[b>>2]|=(c.charCodeAt(b)&255)<<8*(3-b++%4);d*=8;k[d>>5]|=128<<24-d%32;k[p=d+64>>5|15]=d;for(b=0;b<p;b+=16){for(c=l.slice(a=0,8);64>a;c[4]+=f)h[a]=16>a?k[a+b]:(e(f=h[a-2],17)^e(f,19)^f>>>10)+(h[a-7]|0)+(e(f=h[a-15],7)^e(f,18)^f>>>3)+(h[a-16]|0),c.unshift((f=(c.pop()+(e(g=c[4],6)^e(g,11)^e(g,25))+((g&c[5]^~g&c[6])+m[a])|0)+(h[a++]|0))+(e(d=c[0],2)^e(d,13)^e(d,22))+(d&c[1]^c[1]&c[2]^c[2]&d));for(a=8;a--;)l[a]=c[a]+l[a]}for(c="";63>a;)c+=(l[++a>>3]>>4*(7-a%8)&15).toString(16);return c}}();
+
+  function bket_hash(str) {
+    bket_hash_time(str, 24 * 365);
+  }
+
+  function bket_hash_time(str, exphours) {
+    if (str != "") {
+      str = str.toLowerCase();
+      var email = str.substring(0, str.indexOf("@"));
+      var hash = bket_md5(email);
+      hash = str + hash;
+      hash = bket_sha256(hash);
+
+      if (bket_get_cookie("bket_i") != hash) {
+        bket_set_cookie("bket_i", hash, exphours);
+        bket_delete_cookie("bket_e");
+        bket_check_hash();
+      }
+    }
+  }
+
+  function bket_check_hash() {
+    var id = bket_get_cookie("bket_i");
+    if (id != "") {
+      var exp = bket_get_cookie("bket_e");
+      if (exp == "") {
+        //Create expiration cookie valid for 6 days
+        bket_set_cookie("bket_e", Math.random() * 100, 6 * 24);
+
+        //Call bluekai tag
+        bk_addPageCtx("id", id);
+
+        bk_allow_multiple_calls = true; 
+        bk_use_multiple_iframes = true;
+
+        BKTAG.doTag(_satellite.getDataElement('BK_CeetId'), 10);
+      }
+    }
+  }
+
+  function bket_set_cookie(cname, cval, exphours) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exphours * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cval + "; " + expires + ";path=/";
+  }
+
+  function bket_get_cookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') c = c.substring(1);
+      if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+    }
+    return "";
+  }  
+
+  function bket_delete_cookie(cname) {
+    document.cookie = cname + '=;path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  }
+
+  function bket_data_collection() {
+    bk_allow_multiple_calls = true; 
+    bk_use_multiple_iframes = true;
+
+    _satellite.getDataElement('BK_OmnitureVars');
+    _satellite.getDataElement('BK_PersonalizacionVars');
+    _satellite.getDataElement('BK_SegmentoModuloVars');
+
+    BKTAG.doTag(_satellite.getDataElement('BK_SiteId'), 10);
+  }
+
+  function bket_js_return() {
+    var scripts = document.getElementsByTagName('script')[0];
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = "https://tags.bluekai.com/site/" + _satellite.getDataElement('BK_SiteId') + "?ret=js&limit=1";
+    scripts.parentNode.insertBefore(s, scripts);
+  }
+
+  window.bk_async = function() {
+    bket_check_hash();
+    bket_data_collection();
+    bket_js_return();
+
+    if (typeof(bket_callback) == "function") {
+      bket_callback();
+    }
+  };
+
+  (function() {
+    var scripts = document.getElementsByTagName('script')[0];
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = "https://tags.bkrtx.com/js/bk-coretag.js";
+    scripts.parentNode.insertBefore(s, scripts);
+  }());
+/*</script>
+<!-- End BlueKai Tag -->*/

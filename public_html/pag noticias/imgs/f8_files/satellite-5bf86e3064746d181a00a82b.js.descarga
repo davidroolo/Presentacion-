@@ -1,0 +1,29 @@
+_satellite.pushAsyncScript(function(event, target, $variables){
+  //se identifica tipo de contenido si aplica
+var contentTypeDtm = _satellite.getDataElement('Content Type');
+var keyContentType = "";
+var loadTimeDmpDtm = "0";
+
+// se lee cantidad de tiempo que demora el modulo en cargar
+if (typeof digitalDataAlternative !== 'undefined') {
+	if (typeof digitalDataAlternative.setLoadTimeModule !== 'undefined') {
+    loadTimeDmpDtm = digitalDataAlternative.loadTimeModule;
+  }
+}
+
+//se valida tipo de despliegue
+if(contentTypeDtm == "home general"){
+	keyContentType = "segmentohome";
+}else if(contentTypeDtm == "Articulo"){
+	keyContentType = "segmentoarticulo";
+}
+//envio de dispositivo
+var bk_event_SegmentoModulo = "https://tags.bluekai.com/site/" + _satellite.getDataElement('BK_SiteId') + "?phint="+keyContentType+"%3D"+_satellite.getDataElement("Dmp id de campaña modulo recomendados");
+$('<img />').on('load').attr('src',bk_event_SegmentoModulo);
+//envio de semnto 4 por tiempo o default
+var bk_event_CargueModulo = "https://tags.bluekai.com/site/" + _satellite.getDataElement('BK_SiteId') + "?phint=Default%3D"+_satellite.getDataElement("Dmp campaña default modulo recomendados");
+$('<img />').on('load').attr('src',bk_event_CargueModulo);
+//envio detiempo de carga
+var bk_event_SegmentoModuloTiempo = "https://tags.bluekai.com/site/" + _satellite.getDataElement('BK_SiteId') + "?phint="+keyContentType+_satellite.getDataElement("Dmp id de campaña modulo recomendados")+"%3D"+loadTimeDmpDtm;
+$('<img />').on('load').attr('src',bk_event_SegmentoModuloTiempo);
+});

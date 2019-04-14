@@ -1,0 +1,164 @@
+(function (lib, img, cjs, ss, an) {
+
+var p; // shortcut to reference prototypes
+lib.webFontTxtInst = {}; 
+var loadedTypekitCount = 0;
+var loadedGoogleCount = 0;
+var gFontsUpdateCacheList = [];
+var tFontsUpdateCacheList = [];
+lib.ssMetadata = [];
+
+
+
+lib.updateListCache = function (cacheList) {		
+	for(var i = 0; i < cacheList.length; i++) {		
+		if(cacheList[i].cacheCanvas)		
+			cacheList[i].updateCache();		
+	}		
+};		
+
+lib.addElementsToCache = function (textInst, cacheList) {		
+	var cur = textInst;		
+	while(cur != exportRoot) {		
+		if(cacheList.indexOf(cur) != -1)		
+			break;		
+		cur = cur.parent;		
+	}		
+	if(cur != exportRoot) {		
+		var cur2 = textInst;		
+		var index = cacheList.indexOf(cur);		
+		while(cur2 != cur) {		
+			cacheList.splice(index, 0, cur2);		
+			cur2 = cur2.parent;		
+			index++;		
+		}		
+	}		
+	else {		
+		cur = textInst;		
+		while(cur != exportRoot) {		
+			cacheList.push(cur);		
+			cur = cur.parent;		
+		}		
+	}		
+};		
+
+lib.gfontAvailable = function(family, totalGoogleCount) {		
+	lib.properties.webfonts[family] = true;		
+	var txtInst = lib.webFontTxtInst && lib.webFontTxtInst[family] || [];		
+	for(var f = 0; f < txtInst.length; ++f)		
+		lib.addElementsToCache(txtInst[f], gFontsUpdateCacheList);		
+
+	loadedGoogleCount++;		
+	if(loadedGoogleCount == totalGoogleCount) {		
+		lib.updateListCache(gFontsUpdateCacheList);		
+	}		
+};		
+
+lib.tfontAvailable = function(family, totalTypekitCount) {		
+	lib.properties.webfonts[family] = true;		
+	var txtInst = lib.webFontTxtInst && lib.webFontTxtInst[family] || [];		
+	for(var f = 0; f < txtInst.length; ++f)		
+		lib.addElementsToCache(txtInst[f], tFontsUpdateCacheList);		
+
+	loadedTypekitCount++;		
+	if(loadedTypekitCount == totalTypekitCount) {		
+		lib.updateListCache(tFontsUpdateCacheList);		
+	}		
+};
+// symbols:
+
+
+
+(lib.fondo = function() {
+	this.initialize(img.fondo);
+}).prototype = p = new cjs.Bitmap();
+p.nominalBounds = new cjs.Rectangle(0,0,970,250);
+
+
+(lib.an_Video = function(options) {
+	this._element = new $.an.Video(options);
+	this._el = this._element.create();
+	var $this = this;
+	this.addEventListener('added', function() {
+		$this._lastAddedFrame = $this.parent.currentFrame;
+		$this._element.attach($('#dom_overlay_container'));
+	});
+}).prototype = p = new cjs.MovieClip();
+p.nominalBounds = new cjs.Rectangle(0,0,400,300);
+
+p._tick = _tick;
+p._handleDrawEnd = _handleDrawEnd;
+p._updateVisibility = _updateVisibility;
+
+
+
+// stage content:
+(lib.Billboardvideo = function(mode,startPosition,loop) {
+	this.initialize(mode,startPosition,loop,{});
+
+	// Modo de aislamiento
+	this.instance = new lib.an_Video({'id': '', 'src':'videos/Spot_Marvel_10s_30fps_YouTube_480p.mp4', 'autoplay':true, 'controls':true, 'muted':true, 'loop':false, 'poster':'images/', 'preload':true, 'class':'video'});
+
+	this.instance.setTransform(209.4,125.1,0.888,0.664,0,0,0,200.3,150.2);
+
+	this.timeline.addTween(cjs.Tween.get(this.instance).wait(1));
+
+	// logo fondo
+	this.instance_1 = new lib.fondo();
+	this.instance_1.parent = this;
+
+	this.timeline.addTween(cjs.Tween.get(this.instance_1).wait(1));
+
+}).prototype = p = new cjs.MovieClip();
+p.nominalBounds = new cjs.Rectangle(485,125,970,250);
+// library properties:
+lib.properties = {
+	width: 970,
+	height: 250,
+	fps: 24,
+	color: "#FFFFFF",
+	opacity: 1.00,
+	webfonts: {},
+	manifest: [
+		{src:"images/fondo.png", id:"fondo"},
+		{src:"https://code.jquery.com/jquery-2.2.4.min.js", id:"lib/jquery-2.2.4.min.js"},
+		{src:"components/sdk/anwidget.js", id:"sdk/anwidget.js"},
+		{src:"components/video/src/video.js", id:"an.Video"}
+	],
+	preloads: []
+};
+
+
+function _updateVisibility(evt) {
+	if((this.getStage() == null || this._off || this._lastAddedFrame != this.parent.currentFrame) && this._element) {
+		this._element.detach();
+		stage.removeEventListener('drawstart', this._updateVisibilityCbk);
+		this._updateVisibilityCbk = false;
+	}
+}
+function _handleDrawEnd(evt) {
+	var props = this.getConcatenatedDisplayProps(this._props), mat = props.matrix;
+	var tx1 = mat.decompose(); var sx = tx1.scaleX; var sy = tx1.scaleY;
+	var dp = window.devicePixelRatio || 1; var w = this.nominalBounds.width * sx; var h = this.nominalBounds.height * sy;
+	mat.tx/=dp;mat.ty/=dp; mat.a/=(dp*sx);mat.b/=(dp*sx);mat.c/=(dp*sy);mat.d/=(dp*sy);
+	this._element.setProperty('transform-origin', this.regX + 'px ' + this.regY + 'px');
+	var x = (mat.tx + this.regX*mat.a + this.regY*mat.c - this.regX);
+	var y = (mat.ty + this.regX*mat.b + this.regY*mat.d - this.regY);
+	var tx = 'matrix(' + mat.a + ',' + mat.b + ',' + mat.c + ',' + mat.d + ',' + x + ',' + y + ')';
+	this._element.setProperty('transform', tx);
+	this._element.setProperty('width', w);
+	this._element.setProperty('height', h);
+	this._element.update();
+}
+
+function _tick(evt) {
+	var stage = this.getStage();
+	stage&&stage.on('drawend', this._handleDrawEnd, this, true);
+	if(!this._updateVisibilityCbk) {
+		this._updateVisibilityCbk = stage.on('drawstart', this._updateVisibility, this, false);
+	}
+}
+
+
+})(lib = lib||{}, images = images||{}, createjs = createjs||{}, ss = ss||{}, AdobeAn = AdobeAn||{});
+var lib, images, createjs, ss, AdobeAn;

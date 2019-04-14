@@ -1,0 +1,9 @@
+_satellite.pushAsyncScript(function(event, target, $variables){
+  /*<script>*/
+
+var bk_event_User_Status = "https://tags.bluekai.com/site/" + _satellite.getDataElement('BK_SiteId') + "?phint=userStatus%3D"+_satellite.getDataElement('userStatus');
+jQuery('<img />').on('load').attr('src',bk_event_User_Status);
+/*  
+</script>
+*/
+});
